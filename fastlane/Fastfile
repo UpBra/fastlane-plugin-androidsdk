@@ -5,4 +5,6 @@ lane :test do
 		device: 'pixel_5',
 		size: '4096M',
 	)
+
+	avdmanager_delete()
 end
