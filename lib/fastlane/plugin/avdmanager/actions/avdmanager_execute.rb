@@ -46,7 +46,6 @@ module Fastlane
 					"pgrep -f '@#{name} -port #{port}'",
 					error_callback: ->(_) { }
 				)
-				UI.header pid
 
 				until Actions.sh("#{adb_path} -e shell getprop dev.bootcomplete", log: false).strip == "1"
 					sleep(5)
@@ -80,7 +79,7 @@ module Fastlane
 					)
 
 					if error
-						UI.error! e
+						UI.user_error! error
 					end
 				end
 			end
@@ -90,7 +89,7 @@ module Fastlane
 			#####################################################
 
 			def self.description
-				'Create a new AVD'
+				'Creates a new AVD, executes the given block, and then deletes the AVD'
 			end
 
 			def self.available_options
