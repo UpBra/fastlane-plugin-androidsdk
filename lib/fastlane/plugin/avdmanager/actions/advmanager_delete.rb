@@ -1,3 +1,6 @@
+require 'fastlane/action'
+require_relative '../helper/avdmanager_helper'
+
 module Fastlane
 
 	module Actions
