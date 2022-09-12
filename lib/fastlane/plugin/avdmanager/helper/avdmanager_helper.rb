@@ -21,6 +21,22 @@ module Fastlane
 
 				UI.user_error! "Unable to locate avdmanager executable!"
 			end
+
+			def self.adb_path(params)
+				sdk_path = params[:sdk_path]
+
+				unless File.exist?(sdk_path)
+					UI.user_error! "Android SDK does not exist at path: #{sdk_path}"
+				end
+
+				adb_path = "#{sdk_path}/platform-tools/adb"
+
+				if File.exist?(adb_path)
+					return adb_path
+				end
+
+				UI.user_error! "Unable to locate adb executable!"
+			end
 		end
 	end
 end
