@@ -1,5 +1,11 @@
 lane :test do
 	sdkmanager_find(api: 'android-31', platform: 'google_apis')
+
+	results = lane_context[SharedValues::SDKMANAGER_FIND_RESULTS]
+	first = results.first
+
+	sdkmanager_install(package_path: first.path)
+
 	# avdmanager_create(
 	# 	name: 'TEST',
 	# 	package: 'system-images;android-31;google_apis;x86_64',

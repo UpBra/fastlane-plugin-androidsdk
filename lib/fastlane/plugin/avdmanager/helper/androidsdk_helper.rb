@@ -67,12 +67,23 @@ module Fastlane
 					packages
 				end
 
-				def system_image(api, platform)
+				def find_system_image(api, platform)
 					filter = list.select { |v| v.path.include?('system-image') }
 					filter = filter.select { |v| v.path.include?("#{api};") }
 					filter = filter.select { |v| v.path.include?("#{platform};") }
 					filter = filter.select { |v| v.path.include?(AndroidSDK.architecture) }
 					filter
+				end
+
+				def install_system_image(params)
+					command = "#{@path} --install"
+					command << " '#{params[:package_path]}'"
+
+					FastlaneCore::CommandExecutor.execute(
+						command: command,
+						print_all: false,
+						print_command: true
+					)
 				end
 			end
 
