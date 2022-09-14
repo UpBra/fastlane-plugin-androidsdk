@@ -1,5 +1,5 @@
 require 'fastlane/action'
-require_relative '../helper/avdmanager_helper'
+require_relative '../helper/androidsdk_helper'
 
 module Fastlane
 
@@ -14,7 +14,7 @@ module Fastlane
 				)
 
 				name = params[:name]
-				avdmanager_path = Helper::AVDManager.avdmanager_path(params)
+				avdmanager_path = Helper::AndroidSDK::AVDManager.avdmanager_path(params)
 
 				command = "#{avdmanager_path} delete avd"
 				command << " -n '#{name}'"

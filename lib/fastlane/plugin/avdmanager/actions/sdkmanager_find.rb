@@ -1,11 +1,11 @@
 require 'fastlane/action'
-require_relative '../helper/avdmanager_helper'
+require_relative '../helper/androidsdk_helper'
 
 module Fastlane
 
 	module Actions
 
-		class AvdmanagerSystemImageAction < Action
+		class SdkmanagerFindAction < Action
 
 			def self.run(params)
 				FastlaneCore::PrintTable.print_values(
@@ -13,7 +13,7 @@ module Fastlane
 					title: 'ADV Manager Package Summary'
 				)
 
-				sdkmanager = Helper::SDKManager.new(params)
+				sdkmanager = Helper::AndroidSDK::SDKManager.new(params)
 				api = params[:api]
 				platform = params[:platform]
 				results = sdkmanager.system_image(api, platform)

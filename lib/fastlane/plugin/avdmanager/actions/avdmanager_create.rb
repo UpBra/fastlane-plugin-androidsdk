@@ -1,5 +1,5 @@
 require 'fastlane/action'
-require_relative '../helper/avdmanager_helper'
+require_relative '../helper/androidsdk_helper'
 
 module Fastlane
 
@@ -17,7 +17,7 @@ module Fastlane
 					title: 'ADV Manager Create Summary'
 				)
 
-				avdmanager = Helper::AVDManager.new(params)
+				avdmanager = Helper::AndroidSDK::AVDManager.new(params)
 				avdmanager.create(params)
 
 				lane_context[SharedValues::AVDMANAGER_CREATE_NAME] = name

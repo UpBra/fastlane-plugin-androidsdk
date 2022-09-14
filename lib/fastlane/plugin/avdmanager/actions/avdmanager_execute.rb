@@ -1,5 +1,5 @@
 require 'fastlane/action'
-require_relative '../helper/avdmanager_helper'
+require_relative '../helper/androidsdk_helper'
 
 module Fastlane
 
@@ -23,16 +23,11 @@ module Fastlane
 				demo_mode = params[:demo_mode]
 				cold_boot = params[:cold_boot]
 				block = params[:block]
-				avdmanager_path = Helper::AVDManager.avdmanager_path(params)
-				adb_path = Helper::AVDManager.adb_path(params)
+				avdmanager = Helper::AndroidSDK::AVDManager.new(params)
+				adb = Helper::AndroidSDK::ADB.new(params)
 
-				other_action.avdmanager_create(
-					sdk_path: sdk_path,
-					name: name,
-					package: package,
-					device: device,
-					size: size
-				)
+				UI.message('Creating android emulator...')
+				avdmanager.create(params)
 
 				UI.message('Starting emulator...')
 
@@ -40,35 +35,32 @@ module Fastlane
 
 				command = "#{sdk_path}/emulator/emulator @#{name} -port #{port}"
 				sh("#{command} > /dev/null 2>&1 &")
-				sh("#{adb_path} -e wait-for-device")
+				sh("#{adb.path} -e wait-for-device")
 
 				pid = Actions.sh(
 					"pgrep -f '@#{name} -port #{port}'",
 					error_callback: ->(_) { }
 				)
 
-				until Actions.sh("#{adb_path} -e shell getprop dev.bootcomplete", log: false).strip == "1"
+				until Actions.sh("#{adb.path} -e shell getprop dev.bootcomplete", log: false).strip == "1"
 					sleep(5)
 				end
 
 				if location
 					UI.message("Set location")
-					sh("LC_NUMERIC=C; #{adb_path} emu geo fix #{location}")
+					sh("LC_NUMERIC=C; #{adb.path} emu geo fix #{location}")
 				end
 
 				if demo_mode
 					UI.message("Set in demo mode")
-					sh("#{adb_path} -e shell settings put global sysui_demo_allowed 1")
-					sh("#{adb_path} -e shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 0700")
+					sh("#{adb.path} -e shell settings put global sysui_demo_allowed 1")
+					sh("#{adb.path} -e shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 0700")
 				end
 
 				ENV['SCREENGRAB_SPECIFIC_DEVICE'] = "emulator-#{port}"
-				error = nil
 
 				begin
 					block.call(name)
-				rescue => e
-					error = e
 				ensure
 					unless pid.empty?
 						sh("kill #{pid}")

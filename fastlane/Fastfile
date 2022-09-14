@@ -1,5 +1,5 @@
 lane :test do
-	avdmanager_system_image(api: 'android-31', platform: 'google_apis')
+	sdkmanager_find(api: 'android-31', platform: 'google_apis')
 	# avdmanager_create(
 	# 	name: 'TEST',
 	# 	package: 'system-images;android-31;google_apis;x86_64',
