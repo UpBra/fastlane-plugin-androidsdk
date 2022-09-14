@@ -17,25 +17,8 @@ module Fastlane
 					title: 'ADV Manager Create Summary'
 				)
 
-				sdk_path = params[:sdk_path]
-				name = params[:name]
-				package = params[:package]
-				device = params[:device]
-				size = params[:size]
-				avdmanager_path = Helper::AVDManager.avdmanager_path(params)
-
-				command = "#{avdmanager_path} create avd"
-				command << " -n '#{name}'"
-				command << " -k '#{package}'"
-				command << " -d '#{device}'"
-				command << " -c '#{size}'"
-				command << " -f"
-
-				FastlaneCore::CommandExecutor.execute(
-					command: command,
-					print_all: true,
-					print_command: true
-				)
+				avdmanager = Helper::AVDManager.new(params)
+				avdmanager.create(params)
 
 				lane_context[SharedValues::AVDMANAGER_CREATE_NAME] = name
 
