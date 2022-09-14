@@ -1,29 +1,22 @@
 require 'fastlane/action'
-require_relative '../helper/avdmanager_helper'
+require_relative '../helper/androidsdk_helper'
 
 module Fastlane
 
 	module Actions
 
-		class AvdmanagerDeleteAction < Action
+		class SdkmanagerInstallAction < Action
 
 			def self.run(params)
 				FastlaneCore::PrintTable.print_values(
 					config: params,
-					title: 'ADV Manager Delete Summary'
+					title: 'SDK Manager Install Summary'
 				)
 
-				name = params[:name]
-				avdmanager_path = Helper::AVDManager.avdmanager_path(params)
+				UI.message "Installing package path: #{params[:package_path]}"
 
-				command = "#{avdmanager_path} delete avd"
-				command << " -n '#{name}'"
-
-				FastlaneCore::CommandExecutor.execute(
-					command: command,
-					print_all: true,
-					print_command: true
-				)
+				sdkmanager = Helper::AndroidSDK::SDKManager.new(params)
+				results = sdkmanager.install_system_image(params)
 			end
 
 			#####################################################
@@ -31,23 +24,22 @@ module Fastlane
 			#####################################################
 
 			def self.description
-				'Delete an AVD'
+				'Install a package with sdkmanager'
 			end
 
 			def self.available_options
 				[
 					FastlaneCore::ConfigItem.new(
 						key: :sdk_path,
-						env_names: ['AVDMANAGER_DELETE_SDK_PATH', 'AVDMANAGER_CREATE_SDK_PATH'],
+						env_name: 'SDKMANAGER_INSTALL_SDK_PATH',
 						description: 'Path to the Android sdk',
 						default_value: ENV['ANDROID_HOME'] || ENV['ANDROID_SDK_ROOT'] || ENV['ANDROID_SDK']
 					),
 					FastlaneCore::ConfigItem.new(
-						key: :name,
-						env_name: 'AVDMANAGER_DELETE_NAME',
-						description: 'Name of the device',
-						type: String,
-						default_value: lane_context[SharedValues::AVDMANAGER_CREATE_NAME]
+						key: :package_path,
+						env_name: 'SDKMANAGER_INSTALL_PACKAGE_PATH',
+						description: 'API version',
+						type: String
 					)
 				]
 			end
