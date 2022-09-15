@@ -4,14 +4,16 @@ lane :test do
 	results = lane_context[SharedValues::SDKMANAGER_FIND_RESULTS]
 	first = results.first
 
-	sdkmanager_install(package_path: first.path)
+	UI.message first
 
-	# avdmanager_create(
-	# 	name: 'TEST',
-	# 	package: 'system-images;android-31;google_apis;x86_64',
-	# 	device: 'pixel_5',
-	# 	size: '4096M',
-	# )
+# 	sdkmanager_install(package_path: first.path)
+#
+# 	avdmanager_create(
+# 		name: 'TEST',
+# 		package: 'system-images;android-31;google_apis;x86_64',
+# 		device: 'pixel_5',
+# 		size: '4096M',
+# 	)
 
 # 	avdmanager_create(
 # 		name: 'TEST',
