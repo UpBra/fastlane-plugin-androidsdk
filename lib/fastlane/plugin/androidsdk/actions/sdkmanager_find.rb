@@ -6,6 +6,7 @@ module Fastlane
 	module Actions
 
 		module SharedValues
+			SDKMANAGER_FIND_FIRST = :SDKMANAGER_FIND_FIRST
 			SDKMANAGER_FIND_RESULTS = :SDKMANAGER_FIND_RESULTS
 		end
 
@@ -14,7 +15,7 @@ module Fastlane
 			def self.run(params)
 				FastlaneCore::PrintTable.print_values(
 					config: params,
-					title: 'ADV Manager Package Summary'
+					title: 'SDK Manager Find Summary'
 				)
 
 				sdkmanager = Helper::AndroidSDK::SDKManager.new(params)
@@ -22,7 +23,14 @@ module Fastlane
 				platform = params[:platform]
 				results = sdkmanager.find_system_image(api, platform)
 
+				if results.count > 1
+					UI.header "SDK Manager Warning"
+					UI.warning "#{results} system images found!"
+					UI.warning "First result may not be the one you wanted!"
+				end
+
 				lane_context[SharedValues::SDKMANAGER_FIND_RESULTS] = results
+				lane_context[SharedValues::SDKMANAGER_FIND_FIRST] = results.first
 
 				results
 			end
