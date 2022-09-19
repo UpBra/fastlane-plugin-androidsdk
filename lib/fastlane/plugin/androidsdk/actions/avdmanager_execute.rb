@@ -29,7 +29,7 @@ module Fastlane
 				UI.message('Creating android emulator...')
 				avdmanager.create(params)
 
-				UI.message('Starting emulator...')
+				UI.message('Starting android emulator...')
 
 				system("LC_NUMERIC=C;")
 
@@ -62,16 +62,12 @@ module Fastlane
 				begin
 					block.call(name)
 				ensure
+					UI.message 'Deleting android emulator...'
+					avdmanager.delete(params)
+
 					unless pid.empty?
+						UI.message 'Stopping appium server...'
 						sh("kill #{pid}")
-					end
-
-					other_action.avdmanager_delete(
-						name: name
-					)
-
-					if error
-						UI.user_error! error
 					end
 				end
 			end
