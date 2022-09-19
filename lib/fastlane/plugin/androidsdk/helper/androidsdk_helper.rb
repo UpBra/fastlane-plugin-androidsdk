@@ -8,10 +8,13 @@ module Fastlane
 		module AndroidSDK
 
 			def self.architecture
+				rosetta = `sysctl -in sysctl.proc_translated`.strip
 				arch = `arch`.strip.downcase
 
+				return 'arm64' if rosetta == '1'
 				return 'x86' if arch.include?('i386')
-				return arch if arch.include?('arm')
+				return 'x86' if arch.include?('x86_64')
+				return 'arm64' if arch.include?('arm')
 
 				return 'x86'
 			end
