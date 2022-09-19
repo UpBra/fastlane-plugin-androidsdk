@@ -136,6 +136,19 @@ module Fastlane
 						print_command: true
 					)
 				end
+
+				def delete(params)
+					name = params[:name]
+
+					command = "#{@path} delete avd"
+					command << " -n '#{name}'"
+
+					FastlaneCore::CommandExecutor.execute(
+						command: command,
+						print_all: true,
+						print_command: true
+					)
+				end
 			end
 
 			class ADB
