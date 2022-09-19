@@ -19,10 +19,11 @@ module Fastlane
 
 				avdmanager = Helper::AndroidSDK::AVDManager.new(params)
 				avdmanager.create(params)
+				avdname = params[:name]
 
-				lane_context[SharedValues::AVDMANAGER_CREATE_NAME] = name
+				lane_context[SharedValues::AVDMANAGER_CREATE_NAME] = avdname
 
-				name
+				avdname
 			end
 
 			#####################################################

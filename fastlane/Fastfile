@@ -1,19 +1,28 @@
+class Emulator
+	attr_accessor :name, :device, :api, :platform
+
+	def initialize(device: 'pixel', api: 'android-32', platform: 'google_apis')
+		@name = [device, api, platform].join('_').gsub(' ', '_')
+		@device = device
+		@api = api
+		@platform = platform
+	end
+end
+
 lane :test do
-	sdkmanager_find(api: 'android-31', platform: 'google_apis')
+	emulator = Emulator.new(device: 'pixel', api: 'android-32')
 
-	results = lane_context[SharedValues::SDKMANAGER_FIND_RESULTS]
-	first = results.first
+	sdkmanager_find(api: emulator.api, platform: emulator.platform)
+	sdkmanager_install(package_path: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH])
 
-	UI.message first
+	avdmanager_create(
+		name: emulator.name,
+		package: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH],
+		device: emulator.device,
+		size: '4096M'
+	)
+	avdmanager_delete()
 
-# 	sdkmanager_install(package_path: first.path)
-#
-# 	avdmanager_create(
-# 		name: 'TEST',
-# 		package: 'system-images;android-31;google_apis;x86_64',
-# 		device: 'pixel_5',
-# 		size: '4096M',
-# 	)
 
 # 	avdmanager_create(
 # 		name: 'TEST',

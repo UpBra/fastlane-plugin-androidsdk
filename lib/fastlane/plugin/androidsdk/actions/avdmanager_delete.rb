@@ -13,17 +13,8 @@ module Fastlane
 					title: 'ADV Manager Delete Summary'
 				)
 
-				name = params[:name]
-				avdmanager_path = Helper::AndroidSDK::AVDManager.avdmanager_path(params)
-
-				command = "#{avdmanager_path} delete avd"
-				command << " -n '#{name}'"
-
-				FastlaneCore::CommandExecutor.execute(
-					command: command,
-					print_all: true,
-					print_command: true
-				)
+				avdmanager = Helper::AndroidSDK::AVDManager.new(params)
+				avdmanager.delete(params)
 			end
 
 			#####################################################
