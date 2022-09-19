@@ -6,8 +6,9 @@ module Fastlane
 	module Actions
 
 		module SharedValues
-			SDKMANAGER_FIND_FIRST = :SDKMANAGER_FIND_FIRST
 			SDKMANAGER_FIND_RESULTS = :SDKMANAGER_FIND_RESULTS
+			SDKMANAGER_FIND_FIRST = :SDKMANAGER_FIND_FIRST
+			SDKMANAGER_FIND_FIRST_PATH = :SDKMANAGER_FIND_FIRST_PATH
 		end
 
 		class SdkmanagerFindAction < Action
@@ -31,6 +32,7 @@ module Fastlane
 
 				lane_context[SharedValues::SDKMANAGER_FIND_RESULTS] = results
 				lane_context[SharedValues::SDKMANAGER_FIND_FIRST] = results.first
+				lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH] = results.first.path
 
 				results
 			end
@@ -40,7 +42,7 @@ module Fastlane
 			#####################################################
 
 			def self.description
-				'Delete an AVD'
+				'Finds package details given a specific api and platform'
 			end
 
 			def self.available_options
