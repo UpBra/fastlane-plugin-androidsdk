@@ -1,13 +1,9 @@
-class Emulator
-	attr_accessor :name, :device, :api, :platform
-
-	def initialize(device: 'pixel', api: 'android-32', platform: 'google_apis')
-		@name = [device, api, platform].join('_').gsub(' ', '_')
-		@device = device
-		@api = api
-		@platform = platform
-	end
-end
+# ----------------------------------------------------------------------
+#
+# Fastfile
+# https://docs.fastlane.tools
+#
+# ----------------------------------------------------------------------
 
 lane :test do
 	emulator = Emulator.new(device: 'pixel', api: 'android-32')
@@ -24,22 +20,13 @@ lane :test do
 	avdmanager_delete()
 
 
-# 	avdmanager_create(
-# 		name: 'TEST',
-# 		package: 'system-images;android-32;google_apis;arm64-v8a',
-# 		device: 'pixel_5',
-# 		size: '4096M',
-# 	)
-#
-# 	avdmanager_delete()
-#
-# 	avdmanager_execute(
-# 		name: 'TEST',
-# 		package: 'system-images;android-32;google_apis;arm64-v8a',
-# 		device: 'pixel_5',
-# 		size: '4096M',
-# 		block: ->(name) {
-# 			UI.message "Executing stuff with #{name} running..."
-# 		}
-# 	)
+	avdmanager_execute(
+		name: emulator.name,
+		package: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH],
+		device: emulator.device,
+		size: '4096M',
+		block: ->(name) {
+			UI.message "Executing block with #{name} running..."
+		}
+	)
 end
