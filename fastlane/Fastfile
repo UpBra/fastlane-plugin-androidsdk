@@ -1,27 +1,21 @@
-class Emulator
-	attr_accessor :name, :device, :api, :platform
-
-	def initialize(device: 'pixel', api: 'android-32', platform: 'google_apis')
-		@name = [device, api, platform].join('_').gsub(' ', '_')
-		@device = device
-		@api = api
-		@platform = platform
-	end
-end
+# ----------------------------------------------------------------------
+#
+# Fastfile
+# https://docs.fastlane.tools
+#
+# ----------------------------------------------------------------------
 
 lane :test do
-	emulator = Emulator.new(device: 'pixel', api: 'android-32')
-
-	sdkmanager_find(api: emulator.api, platform: emulator.platform)
-	sdkmanager_install(package_path: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH])
-
-	avdmanager_create(
-		name: emulator.name,
-		package: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH],
-		device: emulator.device,
-		size: '4096M'
-	)
-	avdmanager_delete()
+# 	sdkmanager_find(api: emulator.api, platform: emulator.platform)
+# 	sdkmanager_install(package_path: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH])
+#
+# 	avdmanager_create(
+# 		name: emulator.name,
+# 		package: lane_context[SharedValues::SDKMANAGER_FIND_FIRST_PATH],
+# 		device: emulator.device,
+# 		size: '4096M'
+# 	)
+# 	avdmanager_delete()
 
 
 # 	avdmanager_create(
