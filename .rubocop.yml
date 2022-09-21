@@ -5,6 +5,7 @@ require:
 AllCops:
   TargetRubyVersion: 2.6
   NewCops: enable
+  SuggestExtensions: false
   Include:
   - "**/*.rb"
   - "**/*file"
@@ -18,47 +19,35 @@ AllCops:
   - "**/lib/assets/MatchfileTemplate"
   - "**/spec/fixtures/broken_files/broken_file.rb"
   - "**/*.provisionprofile"
-Lint:
-  Enabled: false
-Style:
-  Enabled: false
+
+# Layout
 Layout:
   Enabled: false
-Performance/RegexpMatch:
+
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+# Lint
+Lint:
   Enabled: false
-Performance/StringReplacement:
+
+# Metrics
+Metrics:
   Enabled: false
-Style/NumericPredicate:
+
+# Naming
+Naming:
   Enabled: false
-Metrics/BlockLength:
+
+# Require
+Require:
   Enabled: false
-Metrics/ModuleLength:
+
+# Style
+Style:
   Enabled: false
-Naming/VariableNumber:
-  Enabled: false
-Require/MissingRequireStatement:
-  Enabled: false
-Metrics/AbcSize:
-  Enabled: false
-Metrics/MethodLength:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/ClassLength:
-  Max: 320
-Metrics/ParameterLists:
-  Max: 17
-Naming/PredicateName:
-  Enabled: false
-Naming/FileName:
-  Exclude:
-  - "**/Dangerfile"
-  - "**/Brewfile"
-  - "**/Gemfile"
-  - "**/Podfile"
-  - "**/Rakefile"
-  - "**/Fastfile"
-  - "**/Deliverfile"
-  - "**/Snapfile"
-  - "**/Pluginfile"
-  - "**/*.gemspec"
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
