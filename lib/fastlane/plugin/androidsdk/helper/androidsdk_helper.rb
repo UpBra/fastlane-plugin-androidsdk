@@ -64,8 +64,7 @@ module Fastlane
 						print_command: false
 					)
 
-					output = result.split("Available Packages:").last
-					lines = output.split("\n").select { |v| v.include?("|") }
+					lines = result.split("\n").select { |v| v.include?("|") }
 					packages = lines.map { |v| Package.new(v) }.uniq
 					packages
 				end
