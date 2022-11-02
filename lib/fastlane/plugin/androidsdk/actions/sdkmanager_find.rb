@@ -24,11 +24,16 @@ module Fastlane
 				platform = params[:platform]
 				results = sdkmanager.find_system_image(api, platform)
 
+				UI.header 'SDK Manager Find Results'
+				UI.message results
+
 				if results.count > 1
 					UI.header "SDK Manager Warning"
 					UI.warning "#{results} system images found!"
 					UI.warning "First result may not be the one you wanted!"
 				end
+
+				UI.user_error! 'Failed to locate system image sdk!' if results.empty?
 
 				lane_context[SharedValues::SDKMANAGER_FIND_RESULTS] = results
 				lane_context[SharedValues::SDKMANAGER_FIND_FIRST] = results.first
